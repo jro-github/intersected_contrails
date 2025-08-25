@@ -193,8 +193,8 @@ public class java3D_cylinder {
         objRoot.addChild(zAxisShape);
     }
 
-    public static void main(String[] args) throws IOException {      
-			new java3D_cylinder();
-    }
-
+    public static void main(String[] args) throws IOException {
+    System.setProperty("j3d.noDirect3D", "true");
+    new java3D_cylinder();
+}
 }

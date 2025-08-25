@@ -1621,8 +1621,8 @@ public class wake_vortex_individual_s0 {
 	}
 
 	public static void run() {
-		wake_vortex_individual_s0 wvi = new wake_vortex_individual_s0("Config_NEU_03APR20_vortex0.txt",
-				"Config_NEU_03APR20_vortex1_for_s0&1&3.txt");
+		wake_vortex_individual_s0 wvi = new wake_vortex_individual_s0("Config_vortex0.txt",
+				"Config_vortex1_for_s0&1&3.txt");
 		wvi.ContrailEvolution();
 	}
 	

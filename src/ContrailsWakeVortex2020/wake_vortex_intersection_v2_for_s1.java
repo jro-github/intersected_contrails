@@ -3157,7 +3157,7 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 	public static void run() {
 		wake_vortex_intersection_v2_for_s1 wvi = new wake_vortex_intersection_v2_for_s1(
-				"Config_NEU_03APR20_vortex0.txt", "Config_NEU_03APR20_vortex1_for_s0&1&3.txt");
+				"Config_vortex0.txt", "Config_vortex1_for_s0&1&3.txt");
 		wvi.ContrailEvolution();
 	}
 

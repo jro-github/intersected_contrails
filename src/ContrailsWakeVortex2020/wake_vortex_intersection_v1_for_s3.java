@@ -60,7 +60,11 @@ public class wake_vortex_intersection_v1_for_s3 {
 	private Extinktionseffizienz Ext_inter;
 
 	final double time_diff = 900; // time difference of contrail_1 after contrail_0, unit [s]
-	int angle = 90; // intersection angle, limited to [0, pi/2]
+	/**
+	 * The intersection angle between contrails, in degrees.
+	 * Valid values are limited to the range [0, 90], corresponding to [0, π/2] radians.
+	 */
+	private int angle = 90; // intersection angle, limited to [0, 90]
 
 	///////////////////////////////////////////////////
 	/////// * common used file and parameters *////////
@@ -75,16 +79,14 @@ public class wake_vortex_intersection_v1_for_s3 {
 	///////////////////////////////////////////////////
 	///////////////////////////////////////////////////
 	///////////////////////////////////////////////////
+	/// 
+	/// Intersection Angle will be defined from the central control.
+	/// 
 
-	public wake_vortex_intersection_v1_for_s3(String ConfigFileName_0, String ConfigFileName_1) {
+	public wake_vortex_intersection_v1_for_s3(String ConfigFileName_0, String ConfigFileName_1, int angle) {
 		// read all possible parameters from config-file and initialise variables
 
-		// specify Grib File for weather data
-
-		// gribdata = new
-		// WeatherFromGrib("/Users/marco/Desktop/testordner/gribtesttest");
-		// gribdata = new
-		// WeatherFromGrib("/Users/marco/Desktop/testordner/grib_01_2016-02-07_1200.grib2");
+		this.angle = angle; // set the intersection angle
 
 		//////////////////////////////////////////
 		/* contrail_0 parameters configurations */
@@ -2614,13 +2616,16 @@ public class wake_vortex_intersection_v1_for_s3 {
 		return;
 	}
 	
-    public static void run() {
-    	wake_vortex_intersection_v1_for_s3 wvi = new wake_vortex_intersection_v1_for_s3("Config_NEU_03APR20_vortex0.txt",
-				"Config_NEU_03APR20_vortex1_for_s0&1&3.txt");
-		wvi.ContrailEvolution();
+    public static void run(int angle) {
+        wake_vortex_intersection_v1_for_s3 wvi = new wake_vortex_intersection_v1_for_s3(
+            "Config_vortex0.txt",
+            "Config_vortex1_for_s0&1&3.txt",
+            angle
+        );
+        wvi.ContrailEvolution();
     }
 
 	public static void main(String[] args) {
-		run();
+		run(90);
 	}
 }

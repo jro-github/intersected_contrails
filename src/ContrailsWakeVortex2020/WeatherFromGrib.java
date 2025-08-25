@@ -24,16 +24,12 @@ public class WeatherFromGrib {
 
     public static void main(String[] args)
     {
-        WeatherFromGrib TEST = new WeatherFromGrib("C:\\Users\\mluo\\eclipse-workspace\\ContrailsWakeVortex2020-master\\grib_01_2016-02-07_1200.grib2");
+        // If a filename is provided as argument, use it; otherwise use default in current directory
+        String gribFileName = args.length > 0 ? args[0] : "grib_01_2016-02-07_1200.grib2"; // Default: current directory
+        WeatherFromGrib TEST = new WeatherFromGrib(gribFileName);
 
-        //double testest = TEST.getWindUFromAltitude(50,10,1000);
         double testest = TEST.getTempFromAltitude(-50,150,10464);
-        //System.out.println(testest);
-        //double testest1 = TEST.getThetaFromAltitude(51,11,16500);
-        //System.out.println(testest1);
-        //double testest2 = TEST.getThetaFromPressure(88,1,80000);
         System.out.println(testest);
-        //System.out.println(TEST.getAltitudeFromPressure(50,100,0));
     }
     
     Logger logger = LoggerFactory.getLogger(WeatherFromGrib.class);

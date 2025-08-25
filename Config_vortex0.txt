@@ -1,0 +1,38 @@
+// Radiosonde filename ==> Temp, p, RH, Theta, dThetadz   // Set radiosonde data file here, extracted from the following file after compile
+___afglmwRH+10.TXT
+// Output filename, in order to store the results separately, this file path moved to the java code   // Output file path (set in Java code, last lines)
+ // records\Ausgabe_LATm50_LON150_vortex_0.txt
+// flight level [m]   // Aircraft flight altitude in meters
+10500.
+// TAS [m/s] ==> distance   // True Air Speed in meters per second
+233.
+// time step of flight profile [s]   // Time step for flight profile in seconds
+180.
+// plane mass [kg]   // Aircraft mass in kilograms
+70000.
+// fuelflow [kg/s]   // Fuel flow in kilograms per second
+0.314
+// epsilon turbulence [required?], eps from AMS Glossary ... no longer used!   // Turbulence parameter (not used)
+1.e-4
+// Dv [m2/s] irrelevant, recalculated in the program   // Dv (irrelevant, recalculated)
+0.
+// Dh [m2/s]   // Dh (horizontal diffusion) in m²/s
+20.
+// Ds [m2/s]=!0   // Ds (vertical diffusion) in m²/s
+0.
+// s[1/s]   // Shear rate in 1/s
+0.000
+// mean value of wind velocity at flight level [m/s]   // Mean wind speed at flight altitude in m/s
+20.
+// vz [m/s] <=! 0.01 m/s   // Vertical wind speed in m/s (should not exceed 0.01 m/s)
+0.005
+// uprime [m/s] horizontal wind fluctuation   // Horizontal wind fluctuation in m/s
+0.3
+// initial time step [s]   // Initial simulation time step in seconds
+1
+// lat   // Latitude
+-50
+// long   // Longitude
+150
+// Gribfile file path //IMPORTANT: Change this to your own // Path to GRIB data file from the main path (!!must be set to your own directory!!!)
+H:\The Coding Environment\Contrail 2\intersected_contrails\grib_01_2016-02-07_1200.grib2   
