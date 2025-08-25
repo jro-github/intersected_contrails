@@ -1,5 +1,5 @@
 // Radiosonde filename ==> Temp, p, RH, Theta, dThetadz   // Set radiosonde data file here, extracted from the following file after compile
-___afglmwRH+10.TXT
+_afglmwRH+10.TXT
 // Output filename, in order to store the results separately, this file path moved to the java code   // Output file path (set in Java code, last lines)
  // records\Ausgabe_LATm50_LON150_vortex_0.txt
 // flight level [m]   // Aircraft flight altitude in meters
@@ -35,4 +35,4 @@ ___afglmwRH+10.TXT
 // long   // Longitude
 150.5279
 // Gribfile file path //IMPORTANT: Change this to your own // Path to GRIB data file from the main path (!!must be set to your own directory!!!)
-// H:\The Coding Environment\Contrail 2\intersected_contrails\grib_01_2016-02-07_1200.grib2
+H:\The Coding Environment\Contrail Final\intersected_contrails\grib_01_2016-02-07_1200.grib2   

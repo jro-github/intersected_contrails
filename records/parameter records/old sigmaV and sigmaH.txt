@@ -1,0 +1,17 @@
+			sigmav = Math.pow(2. * cp_v_0.Dv * t + Math.pow(cp_v_0.sigma0v, 2), 0.5);
+			cp_v_0.s = (gribdata.getWindspeedFromAltitude(cp_v_0.lat, cp_v_0.lon, cp_v_0.altitude + sigmav)
+					- gribdata.getWindspeedFromAltitude(cp_v_0.lat, cp_v_0.lon, cp_v_0.altitude - sigmav)) / (2 * sigmav); // calculates
+																												// the
+																												// change of
+																												// windspeed
+																									 			// between
+																												// upper and
+																												// lower
+																												// boundary
+																												// of
+																												// contrail
+																												// per metre
+			sigmah = Math.pow(2. / 3. * cp_v_0.s * cp_v_0.s * cp_v_0.Dv * Math.pow(t, 3)
+					+ (2 * cp_v_0.Ds + cp_v_0.s * Math.pow(cp_v_0.sigma0v, 2)) * cp_v_0.s * Math.pow(t, 2) + 2 * cp_v_0.Dh * t
+					+ Math.pow(cp_v_0.sigma0h, 2), 0.5);
+			sigmas = cp_v_0.s * cp_v_0.Dv * Math.pow(t, 2) + (2 * cp_v_0.Ds + cp_v_0.s * Math.pow(cp_v_0.sigma0v, 2)) * t;
