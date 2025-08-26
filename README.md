@@ -56,18 +56,21 @@ When ready, navigate to `**your project folder**\src\ContrailsWakeVortex2020` ru
 
 ## Usage
 
-To run the simulation, execute `\src\ContrailsWakeVortex2020\central_control_of_scenarios.java`. Simply run from your IDE, and a guide will show up on the console. Pressing numbers between 0-3 to select the scenario, and for selecting the angle, type a number between 0-90 to represent: $$ [0\degree, 90\degree]$$
-A simple sketch from the study is illustrated here. 
+To run the simulation, execute `\src\ContrailsWakeVortex2020\central_control_of_scenarios.java`. Simply run from your IDE, and a guide will show up on the console. Pressing numbers between 0-3 to select the scenario, and for selecting the angle, type a number between `0-90` to represent: `[0 degree, 90 degree]`.
 
+### Contrail Scenarios
 
-### Scenario 0: Contrail 0 is independent of  Contrail 1
-This is a baseline scenario. Two contrails are created independently within time and space. To run it, type 0 at the console. 
-### Scenario 1: Contrail 1 is created within Contrail 0
-The properties of the two contrails with similar properties, having a time gap of 900 seconds and an angle of 0. This is resulting in an inter vortex demonstrated in the graph here.  To run it, type 1 at the console. 
-### Scenario 2: Contrail 0 and Contrail 1 are Parallel
-The properties of the two contrails with similar properties, having a time gap of 900 seconds and an angle of 0. This is resulting in an inter vortex demonstrated in the graph here.   To run it, type 2 at the console. 
-### Scenario 3: Contrail 0 and Contrail 1 are intersected at a set angle
-The properties of the two contrails with similar properties, having a time gap of 900 seconds and a set angle, which is the input inside the console. This is resulting in a part of the inter vortex demonstrated in the graph here.  To run it, type 3 at the console, then select a value for intersection angle (By default, 90 degrees). 
+This model considers four scenarios describing the relative spatial configurations of two contrails (C0 and C1).
+
+![Illustration of the Contrail Scenarios](images/Contrail_Scenarios.png)
+
+| Scenario | Condition                                                | Description                                                                                                                    | Configuration Type  |
+| -------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| **S0**   | Independent                                              | Contrail 0 and Contrail 1 are spatially independent, with no overlap or interaction.                                           | Independent         |
+| **S1**   | *a = 0* (parallel) <br> `d₀,₁ + 1.1σₕ,C1 ≤ 1.1σₕ,C0`     | Contrail 1 is completely formed inside Contrail 0, showing **full inclusion** (nested structure).                              | Inclusive / Nested  |
+| **S2**   | *a = 0* (parallel) <br> `d₀,₁ ≤ 1.1σₕ,C1 + 1.1σₕ,C0`     | Contrail 0 and Contrail 1 are parallel with **partial overlap** of their cross-sections, but neither fully contains the other. | Parallel Overlap    |
+| **S3**   | *a ∈ (0, 90]* (angled) <br> `d₀,₁ ≤ 1.1σₕ,C1 + 1.1σₕ,C0` | Contrail 0 and Contrail 1 intersect at a nonzero angle, with overlapping regions depending on distance and σ parameters.       | Angled Intersection |
+
 
 ## Calculation Steps
 The main logic of the calculation is to simulate the evolution of aircraft contrails (condensation trails) and their interaction with atmospheric conditions. Which is located in `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.` The physical process of **Diffusion**,  **Vertical Motion:**,  **Adiabatic Heating**, and the changes in **Ice Particles** are formed in following steps.
@@ -111,5 +114,10 @@ You can also check in the console, where this information is located:
 > `intersection_state_indicator` 
 > `intersection_volumn_cal`
 > `intersection_2D_size_esti`
+
 These parameters are used during the calculation, which indicates the status(Parallel/Intersected/Intercepted) of two simulated contrails.
+
+## License
+This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE) file for details.
+
 
