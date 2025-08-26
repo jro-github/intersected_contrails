@@ -1,7 +1,5 @@
 package ContrailsWakeVortex2020;
 
-//import com.sun.xml.internal.fastinfoset.tools.FI_SAX_Or_XML_SAX_SAXEvent;
-
 import java.lang.Math;
 
 //for file handling
@@ -77,14 +75,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 	///////////////////////////////////////////////////
 
 	public wake_vortex_intersection_v2_for_s1(String ConfigFileName_0, String ConfigFileName_1) {
-		// read all possible parameters from config-file and initialise variables
-
-		// specify Grib File for weather data
-
-		// gribdata = new
-		// WeatherFromGrib("/Users/marco/Desktop/testordner/gribtesttest");
-		// gribdata = new
-		// WeatherFromGrib("/Users/marco/Desktop/testordner/grib_01_2016-02-07_1200.grib2");
 
 		//////////////////////////////////////////
 		/* contrail_0 parameters configurations */
@@ -208,11 +198,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		}
 		;
 
-		/*
-		 * double lat = this.cp.lat; double lon = this.cp.lon; double altitude =
-		 * this.cp.altitude;
-		 */
-
 		// Read Weather Data from Gribfile
 
 		this.cp_0.vx = gribdata.getWindUFromAltitude(this.cp_0.lat, this.cp_0.lon, this.cp_0.altitude); // U-Component
@@ -225,14 +210,12 @@ public class wake_vortex_intersection_v2_for_s1 {
 		this.cp_0.RH = gribdata.getHumidityFromAltitude(this.cp_0.lat, this.cp_0.lon, this.cp_0.altitude); // %
 
 		// this.cp.density = weatherdata_helper(gribdata, this.cp, lat0, lon0, altitude)
-		this.cp_0.density = density(this.cp_0); // FIXME
+		this.cp_0.density = density(this.cp_0); 
 		this.cp_0.vz = vz(this.cp_0);
 		this.cp_0.Theta = theta(this.cp_0);
 		this.cp_0.thetadz = dthetadz(this.cp_0);
 		this.cp_0.eps = eps_calculator(this.cp_0);
 		System.out.println("cp_0.eps: " + this.cp_0.eps);
-
-		// this.cp.eps = eps_calculator(this.cp.lat, this.cp.lon, this.cp.altitude);
 
 		// calculate initial state of Contrail with GRIB
 		initial_state istate_0 = this.Contrail_depth(this.M_0, this.TAS_0,
@@ -380,11 +363,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		}
 		;
 
-		/*
-		 * double lat = this.cp.lat; double lon = this.cp.lon; double altitude =
-		 * this.cp.altitude;
-		 */
-
 		// Read Weather Data from Gribfile
 
 		this.cp_1.vx = gribdata.getWindUFromAltitude(this.cp_1.lat, this.cp_1.lon, this.cp_1.altitude); // U-Component
@@ -397,7 +375,7 @@ public class wake_vortex_intersection_v2_for_s1 {
 		this.cp_1.RH = gribdata.getHumidityFromAltitude(this.cp_1.lat, this.cp_1.lon, this.cp_1.altitude); // %
 
 		// this.cp.density = weatherdata_helper(gribdata, this.cp, lat0, lon0, altitude)
-		this.cp_1.density = density(this.cp_1); // FIXME
+		this.cp_1.density = density(this.cp_1);
 		this.cp_1.vz = vz(this.cp_1);
 		this.cp_1.Theta = theta(this.cp_1);
 		this.cp_1.thetadz = dthetadz(this.cp_1);
@@ -436,51 +414,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 	public double density(contrail_parameters cp) {
 
-		/***
-		 * 
-		 * Calculating air density depending on Relative Humidity
-		 * 
-		 * 
-		 * // From Common Sources
-		 * 
-		 * density = p * M / (R * T)
-		 * 
-		 * p ... Pressure M ... molar Mass R ... Universal Gas Constant 8 J / (kg * K) T
-		 * ... Temperature
-		 * 
-		 * Rs = R / M
-		 * 
-		 * density = p / (Rs * T)
-		 * 
-		 * Rs_air ... 287,058 J / (kg * K) Rs_water ... 461.523 J / (kg * K) pd ...
-		 * Saturation vapour pressure p ... Air Pressure RH ... Relative Humidity
-		 * 
-		 * // Relative Values for air and water to get Specific Gas Constant for humid
-		 * air // as derived from Dalton´s Law and also shown on:
-		 * de.wikipedia.org/wiki/Luftdichte
-		 * 
-		 * Rs = Rs_air / (1 - RF * pd/p * (1 - Rs_air / Rs_water))
-		 * 
-		 * 
-		 * // Saturation vapour pressure at air temperature T from WMO, // Source: WMO
-		 * GUIDE TO METEOROLOGICAL INSTRUMENTS AND METHODS OF OBSERVATION // WMO-No. 8
-		 * (2014 edition, Updated in 2017), page 346 ) //
-		 * https://library.wmo.int/doc_num.php?explnum_id=10179
-		 * 
-		 * pd(T) = 6.107 * 10 ^ (7.5*T/(237.3+T)) ... T has to be in °C
-		 * 
-		 * OR after SONTAG
-		 * 
-		 */
-
-		// sat_vap_pres after WMO GUIDE TO METEOROLOGICAL INSTRUMENTS AND METHODS OF
-		// OBSERVATION WMO-No. 8 (2014 edition, Updated in 2017), page 346 )
-		// https://library.wmo.int/doc_num.php?explnum_id=10179
-		// NOT IN USE, replaced by SONTAG
-		// this.cp.sat_vap_pres = 6.107 *
-		// Math.pow(10,(7.5*(this.cp.T-273.15)/(237.3+(this.cp.T-273.15)))); //with Temp
-		// Conversion to deg Celsius
-
 		// sat_vap_pres after: SONTAG
 		cp.sat_vap_pres = Math.exp(-6096.9385 / cp.T + 16.635794 - 2.711193E-2 * cp.T + 1.673952E-5 * cp.T * cp.T
 				+ 2.433502 * Math.log(cp.T));
@@ -499,20 +432,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 	public double vz(contrail_parameters cp) {
 
-		/***
-		 * 
-		 * Calculating Vertical Wind vz
-		 * 
-		 * // Vertical velocity VVEL is the speed at which the air is rising or sinking.
-		 * // Measured in negative microbars per second as a distance. // Instead of
-		 * meters the distance measured is pressure, so a negative distance in pressure
-		 * // is actually a positive distance in altitude, hence a negative microbar
-		 * distance is used here.
-		 * 
-		 * // p V = m Rs_humidair T ==> rho = p / Rs_humidair T // vvel = omega ... vz =
-		 * -vvel Rs_humidair T / p g
-		 * 
-		 */
 
 		// unter Einberechnung der Feuchtigkeit
 		cp.sat_vap_pres = Math.exp(-6096.9385 / cp.T + 16.635794 - 2.711193E-2 * cp.T + 1.673952E-5 * cp.T * cp.T
@@ -573,19 +492,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 	}
 
 	public double eps_calculator(contrail_parameters cp) {// (double lat, double lon, double altitude) {
-
-		/**
-		 * 
-		 * Calculation of Eddy Dissipation Rate after formula eps = Math.exp (C1 + C2 *
-		 * (lnD - lnDe) / SD) as shown in: SHARMAN AND PEARSON "Prediction of Energy
-		 * Dissipation Rates for Aviation Turbulence. Part I: Forecasting Nonconvective
-		 * Turbulence" (2016)
-		 * 
-		 * Average Values above altitude 0m for
-		 * 
-		 * C1 = -2.572 C2 = 0.5067
-		 * 
-		 **/
 
 		double lat = cp.lat;
 		double lon = cp.lon;
@@ -690,16 +596,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 	public double Calc_Dh(double eps) {
 
-		/*
-		 * According to Tab 3.2, Rosenow, "Optical Properties of Contrails", pg. 68 Eddy
-		 * dissipation rate ε [m2s−3] ... column 0 Horizontal diffusivity Dh [m2s−2] ...
-		 * column 1
-		 * 
-		 * Interpolation of values No extrapolation beyond lower and upper boundaries!
-		 * 
-		 * Returns interpolated value for Dh
-		 */
-
 		double[][] eps_Dh_Table = { { Math.pow(10, -6), 5.00 }, { 5 * Math.pow(10, -6), 8.75 },
 				{ Math.pow(10, -5), 12.50 }, { 5 * Math.pow(10, -5), 16.254 }, { Math.pow(10, -4), 20.00 } };
 		double returnvalue = 0;
@@ -760,9 +656,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		// Gammao ... [m2/s] initial vortex circulation
 		// tprime...[s] characteristic time scale
 		double rho = p * 100 / (287.058 * T); // density of air
-		// FIXME
-		// double rho=density();
-		// System.out.println("rho "+rho);
 		double Gammao = M * 9.81 / (rho * bo * TAS);
 		double wo = Gammao / (2. * Math.PI * bo);
 		double tprime = 2 * Math.PI * Math.pow(bo, 2.) / Gammao;
@@ -779,9 +672,9 @@ public class wake_vortex_intersection_v2_for_s1 {
 		// calculation of contrail height
 		double epsstar = Math.pow(eps * bo, 1 / 3.) / wo;
 
-		// System.out.println("epsstar "+epsstar);
+
 		double Nstar = Math.sqrt(9.81 / Theta * dThetadz) * tprime; // Brunt Vaisala frequency [a.u. 1/s]
-		// System.out.println("Nstar "+Nstar);
+
 		double Tstar = 1;
 
 		double T20star = 5;
@@ -844,15 +737,8 @@ public class wake_vortex_intersection_v2_for_s1 {
 				+ Math.pow(cp.sigma0h, 2);
 		double sigmas = cp.s * cp.Dv * Math.pow(t, 2) + (2 * cp.Ds + cp.s * Math.pow(cp.sigma0v, 2)) * t;
 
-		// System.out.println("cp name: " + cp.toString());
-		// System.out.println("Sigmas in func CCS: " + sigmas);
-		// System.out.println("t in CCS: " + t);
 		double detsigma = sigmah * sigmav - Math.pow(sigmas, 2);
 		double A = 2. * Math.PI * Math.sqrt(detsigma); // Schumann 1995
-
-		// System.out.println("Cross section size (A): " + A);
-		// System.out.println("Cross section size (Eclipse cal): " +
-		// Math.PI*2.2*sigmah*2.2*sigmav); this size calculation not considered!
 
 		return A;
 	}
@@ -861,8 +747,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 	// removed because "z" unused in this func.
 	public double AdiabaticCurve(contrail_parameters cp) {
 		// SATURATION PRESSUREs FROM SONNTAG, Temp IN K, PSAT IN hPa
-		// double
-		// eStar=Math.exp(-6096.9385/cp.T+16.635794-2.711193E-2*cp.T+1.673952E-5*cp.T*cp.T+2.433502*Math.log(cp.T));
 		double eStarIce = Math.exp(-6024.5282 / cp.Tflight + 24.721994 + 1.0613868E-2 * cp.Tflight
 				- 1.3198825E-5 * cp.Tflight * cp.Tflight - 0.49382577 * Math.log(cp.Tflight));
 		double deStarIce = (6024.5282 / Math.pow(cp.Tflight, 2) - 1.0613868E-2 - 2 * 1.3198825E-5 * cp.Tflight
@@ -1021,22 +905,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		double inter_volumn = 0.;
 
 		if (ang == 0) {
-//			if (c0_full_cover_c1) {
-//				inter_volumn = CCS1*distance;
-//				System.out.println("c0_full_cover_c1 is true, parallel, c0 fully covers c1!");
-//				return inter_volumn;
-//			} else if (c0_partly_cover_c1) {
-//				
-//				double inter_h = (cp0_half_width+cp1_half_width-dis_h)/2.;
-//				double inter_v =  cp0_half_height*Math.pow(1-Math.pow((cp0_half_width-inter_h)/(cp0_half_width),2), 0.5);
-//				double inter_size = Math.PI*inter_h*inter_v;
-//				if (inter_size >= CCS1) {
-//					inter_size = CCS1;
-//				}
-//				inter_volumn = inter_size*distance;
-//				System.out.println("c0_partly_cover_c1 is true, parallel, c0 partly covers c1!");
-//				return inter_volumn;
-//			} else {
 			if (dis_h + cp1_half_width <= cp0_half_width) {
 				// full covered
 				inter_volumn = CCS1 * distance;
@@ -1123,22 +991,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		double inter_2D_size = 0.;
 
 		if (ang == 0) {
-//			if (c0_full_cover_c1) {
-//				inter_2D_size = CCS1;
-//				System.out.println("c0_full_cover_c1 is true, parallel, c0 fully covers c1!");
-//				return inter_2D_size;
-//			} else if (c0_partly_cover_c1) {
-//				
-//				double inter_h = (cp0_half_width+cp1_half_width-dis_h)/2.;
-//				double inter_v =  cp0_half_height*Math.pow(1-Math.pow((cp0_half_width-inter_h)/(cp0_half_width),2), 0.5);
-//				inter_2D_size = Math.PI*inter_h*inter_v;
-//				if (inter_2D_size >= CCS1) {
-//					inter_2D_size = CCS1;
-//				}
-//				
-//				System.out.println("c0_partly_cover_c1 is true, parallel, c0 partly covers c1!");
-//				return inter_2D_size;
-//			} else {
 			if (dis_h + cp1_half_width <= cp0_half_width) {
 				// full covered
 				inter_2D_size = CCS1;
@@ -1494,7 +1346,7 @@ public class wake_vortex_intersection_v2_for_s1 {
 		// ========== Beginning of contrail lifetime ==========
 		double t_0 = 0; // at t=0
 		double z_0 = 0; // at flight level
-		// FIXME
+
 		cp_inCE_0.T = cp_inCE_0.Tflight; // contrail temperature is equal to ambient temperature at flight level
 		// delta t for time integration steps
 		double delta_t_0 = this.dt_init_0; // [s]
@@ -1504,7 +1356,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		double CCSc_0 = 0;
 		double CCS_rest_0 = CCS_0;
 		double V_rest_0 = CCS_rest_0 * this.distance_0;
-		// FIXME
 		// SATURATION PRESSUREs FROM SONNTAG, Temp IN K, PSAT IN PA - METEOROL. Z., 3
 		// (1994) 51-66.
 		double eStar_0 = Math.exp(-6096.9385 / cp_inCE_0.T + 16.635794 - 2.711193E-2 * cp_inCE_0.T
@@ -1601,7 +1452,7 @@ public class wake_vortex_intersection_v2_for_s1 {
 		// ========== Beginning of contrail lifetime ==========
 		double t_1 = 0; // at t=0
 		double z_1 = 0; // at flight level
-		// FIXME
+
 		cp_inCE_1.T = cp_inCE_1.Tflight; // contrail temperature is equal to ambient temperature at flight level
 		// delta t for time integration steps
 		double delta_t_1 = this.dt_init_1; // [s]
@@ -1611,7 +1462,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 		double CCSc_1 = 0;
 		double CCS_rest_1 = CCS_1;
 		double V_rest_1 = CCS_rest_1 * this.distance_1;
-		// FIXME
 		// SATURATION PRESSUREs FROM SONNTAG, Temp IN K, PSAT IN PA - METEOROL. Z., 3
 		// (1994) 51-66.
 		double eStar_1 = Math.exp(-6096.9385 / cp_inCE_1.T + 16.635794 - 2.711193E-2 * cp_inCE_1.T
@@ -1763,8 +1613,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 					dice_0 = Math.pow(IWC_0 * CCS_0 * this.distance_0 / (Nice_0 * 917) * 6 / Math.PI, 1 / 3.);
 				}
 
-				// dice = Math.cbrt(IWC*CCS*this.distance/(Nice*917)*6/Math.PI);
-
 				// next time step update:
 				t_0 = t_0 + delta_t_0;
 
@@ -1775,7 +1623,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 				// Contrail horizontal movement
 				// Calculates displaced contrail position (lat, lon)
-				// this.cp.lat = this.cp.lat + (-16.0*(delta_t/(60000*1.852)));
 
 				cp_inCE_0.lat = cp_inCE_0.lat
 						+ (gribdata.getWindVFromAltitude(cp_inCE_0.lat, cp_inCE_0.lon, cp_inCE_0.altitude)
@@ -1798,10 +1645,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 																										// thinking
 				z_0 = z_0 + delta_z_0; // z ist die Summe der delta z je Durchlauf
 				cp_inCE_0.altitude = cp_inCE_0.altitude + delta_z_0;
-
-//				System.out.println("contrail 0 lat:" + ((int) (cp_inCE_0.lat * 10000) / 10000.));
-//				System.out.println("contrail 0 lon:" + cp_inCE_0.lon);
-//				System.out.println("contrail 0 alt:" + cp_inCE_0.altitude);
 
 				sigmav_0 = Math.pow(2. * cp_inCE_0.Dv * t_0 + Math.pow(cp_inCE_0.sigma0v, 2), 0.5);
 				cp_inCE_0.s = (gribdata.getWindspeedFromAltitude(cp_inCE_0.lat, cp_inCE_0.lon,
@@ -1828,11 +1671,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 				sigmas_0 = cp_inCE_0.s * cp_inCE_0.Dv * Math.pow(t_0, 2)
 						+ (2 * cp_inCE_0.Ds + cp_inCE_0.s * Math.pow(cp_inCE_0.sigma0v, 2)) * t_0;
 
-//				System.out.println("contrail 0 sigmav_0:" + sigmav_0);
-//				System.out.println("contrail 0 sigmah_0:" + sigmah_0);
-
-				// System.out.println("Sigmas in main body: " + sigmas);
-				// cp.Dh = 0.1 * cp.uprime * sigmah;
 
 				// eStarIce before adiabatic heating
 				eStarIce_old_0 = Math.exp(-6024.5282 / cp_inCE_0.T + 24.721994 + 1.0613868E-2 * cp_inCE_0.T
@@ -1862,8 +1700,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						evo_state_0 = true;
 					} else {
 
-						// FIXME
-						// get on with it
 						delta_e_0 = eStarIce_0 * (RHice_0 / 100. - 1.);
 						IWCs_0 = 0.21667 * delta_e_0 / cp_inCE_0.T; // Masse des Wasser ueber Saettigung in der Umgebung
 																	// (pro
@@ -1905,8 +1741,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 									Nice_rest_1 = Nice_1
 											* (1 - intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1));
 								}
-								// Nice_rest_1 = Nice_1
-								// * (1 - intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1));
 
 								dice_1 = Math.pow(IWC_1 * CCS_1 * this.distance_1
 										* (1 - intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1))
@@ -1914,8 +1748,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 							} else {
 								Nice_rest_1 = Nice_1
 										* (1 - intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1));
-								// System.out.println("See v1 intersection percentage: " +
-								// intersection_percentage_cal(volumn_inter,CCS_1,this.distance_1 ));
 								dice_1 = Math.pow(IWC_1 * CCS_1 * this.distance_1
 										* (1 - intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1))
 										/ (Nice_rest_1 * 917) * 6 / Math.PI, 1 / 3.);
@@ -2169,28 +2001,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 						cp_inter_initialization_flag = true;
 
-//						try {
-//							double rext_inter = (dice_1+dice_0) / 4. * 1.e6;  
-//							fwDataOut_inter
-//									.write( (this.angle) + ", " + time_diff +", "+ t_inter + ", " + z_inter + ", " + sigmah_inter + ", " + sigmav_inter
-//											+ ", " + sigmas_inter + ", " + dice_inter/2. + ", " + Nice_inter + ", "
-//											+ Ext_inter.Calc_g_terr(rext_inter, lterr_inter) + ", " + Ext_inter.Calc_Qabs_terr(rext_inter, lterr_inter) + ", "
-//											+ Ext_inter.Calc_Qsca_terr(rext_inter, lterr_inter) + ", " + Ext_inter.Calc_g_sol(rext_inter, bsol_inter) + ", "
-//											+ Ext_inter.Calc_Qabs_sol(rext_inter, bsol_inter) + ", " + Ext_inter.Calc_Qsca_sol(rext_inter, bsol_inter) + ", "
-//											+ CCS_inter + ", " + CCS_inter_esti +", " + volumn_inter +", "+ IWC_inter + ", " + RHice_inter + ", "
-//											+ Re(dice_inter/2. , SedimentationSpeed(dice_inter, this.cp_inter),
-//													kinvisc_Suth(gribdata.getPressureFromAltitude(this.cp_inter.lat, this.cp_inter.lon,
-//															this.cp_inter.altitude), this.cp_inter.T))
-//											+ ", " + SedimentationSpeed(dice_inter, this.cp_inter) + ", " + this.cp_inter.s + ", "
-//											+ gribdata.getWindUFromAltitude(this.cp_inter.lat, this.cp_inter.lon, this.cp_inter.altitude) + ", "
-//											+ gribdata.getWindVFromAltitude(this.cp_inter.lat, this.cp_inter.lon, this.cp_inter.altitude) + ", "
-//											+ this.cp_inter.vz + ", " + ((int) (this.cp_inter.lat * 10000) / 10000.) + ", "
-//											+ ((int) (this.cp_inter.lon * 10000) / 10000.) + ", " + Math.round(this.cp_inter.altitude) + "\n");
-//
-//						} catch (IOException ex) {
-//							System.err.println("Fehler beim Schreiben");
-//						}
-//						;
 					}
 					intersection_check_flag = true;
 					System.out
@@ -2210,8 +2020,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						} else if (s1_intersection_state_indicator == 1) {
 							Nice_inter = Nice_0 * intersection_percentage_cal(volumn_inter, CCS_0, this.distance_0)
 									+ Nice_1 * intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1);
-							// Nice_rest_1 = Nice_1
-							// * (1 - intersection_percentage_cal(volumn_inter, CCS_1, this.distance_1));
 							dice_inter = Math.pow(IWC_inter * volumn_inter / (Nice_inter * 917) * 6 / Math.PI, 1 / 3.);
 						} else if (s1_intersection_state_indicator == 2) {
 							Nice_inter = 0;
@@ -2219,12 +2027,7 @@ public class wake_vortex_intersection_v2_for_s1 {
 							dice_inter = Math.pow(IWC_inter * V_rest_1 / (Nice_rest_1 * 917) * 6 / Math.PI, 1 / 3.);
 						}
 
-						// System.out.println("Nice_rest_1 = " + Nice_rest_1);
 						System.out.println("Nice_inter = " + Nice_inter);
-
-						// FIXME, which one to choose!
-
-						// dice_inter = (dice_0 + dice_1)/2;
 
 						// next time step update:
 						t_inter = t_inter + delta_t_inter;
@@ -2257,10 +2060,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						z_inter = z_inter + delta_z_inter; // z ist die Summe der delta z je Durchlauf
 						this.cp_inter.altitude = this.cp_inter.altitude + delta_z_inter;
 
-//							System.out.println("contrail 1 lat:" + cp_inCE_1.lat);
-//							System.out.println("contrail 1 lon:" + cp_inCE_1.lon);
-//							System.out.println("contrail 1 alt:" + cp_inCE_1.altitude);
-
 						sigmav_inter = Math.pow(2. * this.cp_inter.Dv * t_inter + Math.pow(this.cp_inter.sigma0v, 2),
 								0.5);
 						this.cp_inter.s = (gribdata.getWindspeedFromAltitude(this.cp_inter.lat, this.cp_inter.lon,
@@ -2288,12 +2087,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 								+ (2 * this.cp_inter.Ds + this.cp_inter.s * Math.pow(this.cp_inter.sigma0v, 2))
 										* t_inter;
 
-//							System.out.println("contrail 1 sigmav_1:" + sigmav_1);
-//							System.out.println("contrail 1 sigmah_1:" + sigmah_1);
-
-						// System.out.println("Sigmas in main body: " + sigmas);
-						// cp.Dh = 0.1 * cp.uprime * sigmah;
-
 						// eStarIce before adiabatic heating
 						eStarIce_old_inter = Math.exp(-6024.5282 / this.cp_inter.T + 24.721994
 								+ 1.0613868E-2 * this.cp_inter.T - 1.3198825E-5 * this.cp_inter.T * this.cp_inter.T
@@ -2317,10 +2110,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						RHice_inter = gribdata.getHumidityFromAltitude(this.cp_inter.lat, this.cp_inter.lon,
 								this.cp_inter.altitude) * eStar_inter / eStarIce_inter;
 
-						// distance_between_two_contrails = contrail_centrals_distence_cal(cp_inCE_0,
-						// this.cp_inter);
-						// System.out.println("distance_between_two_contrails c_inter " +
-						// distance_between_two_contrails);
 					} else {
 						// calculate ice particle diameter
 						if (s1_intersection_state_indicator == 0) {
@@ -2342,10 +2131,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 						// System.out.println("Nice_rest_1 = " + Nice_rest_1);
 						System.out.println("Nice_inter = " + Nice_inter);
-
-						// FIXME, which one to choose!
-
-						// dice_inter = (dice_0 + dice_1)/2;
 
 						// next time step update:
 						t_inter = t_1 + delta_t_inter;
@@ -2378,10 +2163,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						z_inter = z_1 + delta_z_inter; // z ist die Summe der delta z je Durchlauf
 						this.cp_inter.altitude = cp_inCE_1.altitude + delta_z_inter;
 
-//							System.out.println("contrail 1 lat:" + cp_inCE_1.lat);
-//							System.out.println("contrail 1 lon:" + cp_inCE_1.lon);
-//							System.out.println("contrail 1 alt:" + cp_inCE_1.altitude);
-
 						sigmav_inter = Math.pow(2. * cp_inCE_1.Dv * t_inter + Math.pow(cp_inCE_1.sigma0v, 2), 0.5);
 						this.cp_inter.s = (gribdata.getWindspeedFromAltitude(this.cp_inter.lat, this.cp_inter.lon,
 								this.cp_inter.altitude + sigmav_inter)
@@ -2406,12 +2187,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						sigmas_inter = this.cp_inter.s * cp_inCE_1.Dv * Math.pow(t_inter, 2)
 								+ (2 * cp_inCE_1.Ds + this.cp_inter.s * Math.pow(cp_inCE_1.sigma0v, 2)) * t_inter;
 
-//							System.out.println("contrail 1 sigmav_1:" + sigmav_1);
-//							System.out.println("contrail 1 sigmah_1:" + sigmah_1);
-
-						// System.out.println("Sigmas in main body: " + sigmas);
-						// cp.Dh = 0.1 * cp.uprime * sigmah;
-
 						// eStarIce before adiabatic heating
 						eStarIce_old_inter = Math.exp(-6024.5282 / cp_inCE_1.T + 24.721994 + 1.0613868E-2 * cp_inCE_1.T
 								- 1.3198825E-5 * cp_inCE_1.T * cp_inCE_1.T - 0.49382577 * Math.log(cp_inCE_1.T));
@@ -2419,7 +2194,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						// Temperature
 						this.cp_inter.T = (float) (cp_inCE_1.Tflight - AdiabaticCurve(cp_inCE_1) * z_inter); // adiabatic
 																												// heating
-
 						// calculate additional ice water content
 
 						// SATURATION PRESSUREs FROM SONNTAG, Temp IN K, PSAT IN PA - METEOROL. Z., 3
@@ -2433,11 +2207,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 						RHice_inter = gribdata.getHumidityFromAltitude(this.cp_inter.lat, this.cp_inter.lon,
 								this.cp_inter.altitude) * eStar_inter / eStarIce_inter;
-
-						// distance_between_two_contrails = contrail_centrals_distence_cal(cp_inCE_0,
-						// this.cp_inter);
-						// System.out.println("distance_between_two_contrails c_inter " +
-						// distance_between_two_contrails);
 					}
 				}
 
@@ -2473,7 +2242,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						cp_inCE_1 = this.cp_inter;
 
 						z_1 = z_inter; // at flight level
-						// FIXME
 						cp_inCE_1.T = this.cp_inter.T; // contrail temperature is equal to ambient temperature at flight
 														// level
 
@@ -2482,7 +2250,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						CCSc_1 = ContrailCrossSection(t_1, cp_inCE_1);
 						CCS_rest_1 = CCS_1;
 						V_rest_1 = CCS_rest_1 * this.distance_1;
-						// FIXME
 						// SATURATION PRESSUREs FROM SONNTAG, Temp IN K, PSAT IN PA - METEOROL. Z., 3
 						// (1994) 51-66.
 						eStar_1 = eStar_inter;
@@ -2506,8 +2273,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 						IWCs_1 = IWCs_inter;
 						IWC_1 = IWC_inter;
-						// double
-						// testpressure=gribdata.getPressureFromAltitude(this.cp.lat,this.cp.lon,10500);
 
 						sigmah_1 = sigmah_inter;
 						sigmav_1 = sigmav_inter;
@@ -2529,8 +2294,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 
 				} else if (s1_intersection_state_indicator == 2) {
 					System.out.println("c_inter disappeared due to position changing, not normally dying!!!");
-					// System.out.println("So IWC_inter = 9.9e-8, RHice_inter = 99.99 filled
-					// directly!!!");
 
 					c_inter_position_disappear_flag = true;
 
@@ -2542,9 +2305,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 					Nice_rest_1 = Nice_rest_1 + Nice_inter;
 
 					Nice_keep_flag = true;
-
-					// IWC_inter = 9.9e-8;
-					// RHice_inter = 99.99;
 
 					CCSc_inter = ContrailCrossSection_inter_cal_v2(t_0, t_inter, angle, distance_between_two_contrails,
 							cp_inCE_0, sigmav_0, sigmah_0, cp_inCE_1, sigmav_1, sigmah_1);
@@ -2570,14 +2330,9 @@ public class wake_vortex_intersection_v2_for_s1 {
 					} else {
 						if (intersection_check_flag == true) {
 							if (s1_intersection_state_indicator == 0) {
-								// distance_between_two_contrails = contrail_centrals_distence_cal(cp_inCE_0,
-								// this.cp_inter);
+
 								System.out.println(
 										"distance_between_two_contrails C0: " + distance_between_two_contrails);
-								// System.out.println("sigmah_0 in code: "+sigmah_0);
-								// System.out.println("sigmah_1 in code: "+sigmah_1);
-								// System.out.println("distance_between_two_contrails " +
-								// distance_between_two_contrails);
 
 								c0_esp = contrail0_exposed_surface_percentage_cal(angle, distance_between_two_contrails,
 										sigmav_0, sigmah_0, CCS_0, sigmav_inter, sigmah_inter, CCS_inter,
@@ -2587,14 +2342,9 @@ public class wake_vortex_intersection_v2_for_s1 {
 								delta_e_0 = c0_esp * eStarIce_0 * (RHice_0 / 100. - 1.);
 							} else if ((s1_intersection_state_indicator == 1)
 									|| (s1_intersection_state_indicator == 2)) {
-								// distance_between_two_contrails = contrail_centrals_distence_cal(cp_inCE_0,
-								// cp_inCE_1);
+
 								System.out.println(
 										"distance_between_two_contrails C0: " + distance_between_two_contrails);
-								// System.out.println("sigmah_0 in code: "+sigmah_0);
-								// System.out.println("sigmah_1 in code: "+sigmah_1);
-								// System.out.println("distance_between_two_contrails " +
-								// distance_between_two_contrails);
 
 								c0_esp = contrail0_exposed_surface_percentage_cal(angle, distance_between_two_contrails,
 										sigmav_0, sigmah_0, CCS_0, sigmav_1, sigmah_1, CCS_1, this.distance_0);
@@ -2656,10 +2406,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						// before IWCs is added, IWC is reduced because of adiabatic heating
 						IWC_1 = IWC_1 - (eStarIce_1 - eStarIce_old_1) / (462 * cp_inCE_1.T);
 
-						// current CCSc is the CCSn in last code version, here should not be next, it's
-						// current CCS.
-
-						// delta_t_1 = delta_t_universal;
 						IWC_1 = (IWCs_1 * (CCSc_1 - CCS_1) + IWC_1 * CCS_1) / CCSc_1;
 						// CCS means the old state.
 						CCS_1 = CCSc_1;
@@ -2708,9 +2454,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						// current CCSc is the CCSn in last code version, here should not be next, it's
 						// current CCS.
 
-						// System.out.println("distance_between_two_contrails UPDATE:
-						// "+distance_between_two_contrails);
-
 						// delta_t_inter = delta_t_universal;
 						IWC_inter = (IWCs_inter * (CCSc_inter - CCS_inter) + IWC_inter * CCS_inter) / CCSc_inter;
 						// CCS means the old state.
@@ -2726,9 +2469,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						 */
 						evo_state_inter = false;
 
-						// c1 parameter update:
-						// next time step update:
-						// delta_t_1 = delta_t_universal;
 					}
 
 				}
@@ -2772,9 +2512,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 						Nice_inter = 0;
 
 					}
-
-					// System.out.println("Nice_mean = " + (Nice_rest_0 + Nice_inter + Nice_rest_1)
-					// / 2);
 				}
 			}
 
@@ -2992,7 +2729,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 				if ((intersection_check_flag) && (evo_state_inter == false)) {
 					try {
 						double rext_inter = dice_inter / 2. * 1.e6;
-						// System.out.println("Nice_inter = " + Nice_inter);
 						// for the time synchronization, t_inter -> t_1, t_inter not update from line
 						// 2201 to 2322
 						fwDataOut_inter.write((this.angle) + ", " + time_diff + ", " + t_1 + ", " + z_inter + ", "
@@ -3027,7 +2763,6 @@ public class wake_vortex_intersection_v2_for_s1 {
 				} else if ((intersection_check_flag) && (evo_done_inter == false)) {
 					try {
 						double rext_inter = dice_inter / 2. * 1.e6;
-						// System.out.println("Nice_inter = " + Nice_inter);
 						fwDataOut_inter.write((this.angle) + ", " + time_diff + ", " + t_1 + ", " + z_inter + ", "
 								+ this.cp_inter.eps + ", " + this.cp_inter.Dh + ", " + this.cp_inter.Dv + ", "
 								+ sigmah_inter + ", " + sigmav_inter + ", " + sigmas_inter + ", " + dice_inter / 2.

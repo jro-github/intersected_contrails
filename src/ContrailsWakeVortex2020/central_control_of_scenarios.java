@@ -12,10 +12,10 @@ public class central_control_of_scenarios {
         while (true) {
             System.out.println("Select scenario number to run:");
             System.out.println("===========================================================================");    
-            System.out.println("0: Contrail 0 is independed with Contrail 1");
-            System.out.println("1: Contrail 1 is created within Contrail 0");
-            System.out.println("2: Contrail 0 and Contrail 1 is Parallel");
-            System.out.println("3: Contrail 0 and Contrail 1 is Intersected with a set angle");
+            System.out.println("0: Contrail 0 is independent of Contrail 1");
+            System.out.println("1: Contrail 1 is formed inside Contrail 0 (parallel & inclusive)");
+            System.out.println("2: Contrail 0 and Contrail 1 are parallel with partial overlap of their cross-sections");
+            System.out.println("3: Contrail 0 and Contrail 1 are intersected with a set angle");
             System.out.println("===========================================================================");
             System.out.print("Please enter a scenario number (0-3): ");
 
