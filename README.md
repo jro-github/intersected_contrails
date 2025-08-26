@@ -62,7 +62,7 @@ To run the simulation, execute `\src\ContrailsWakeVortex2020\central_control_of_
 
 This model considers four scenarios describing the relative spatial configurations of two contrails (C0 and C1).
 
-![Illustration of the Contrail Scenarios](images/Contrail_Scenarios.png)
+![Illustration of the Contrail Scenarios](image/Contrail_Scenarios.png)
 
 | Scenario | Condition                                                | Description                                                                                                                    | Configuration Type  |
 | -------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
@@ -118,6 +118,6 @@ You can also check in the console, where this information is located:
 These parameters are used during the calculation, which indicates the status(Parallel/Intersected/Intercepted) of two simulated contrails.
 
 ## License
-This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE.txt) file for details.
 
 
