@@ -71,6 +71,11 @@ This model considers four scenarios describing the relative spatial configuratio
 | **S2**   | *a = 0* (parallel) <br> `d₀,₁ ≤ 1.1σₕ,C1 + 1.1σₕ,C0`     | Contrail 0 and Contrail 1 are parallel with **partial overlap** of their cross-sections, but neither fully contains the other. | Parallel Overlap    |
 | **S3**   | *a ∈ (0, 90]* (angled) <br> `d₀,₁ ≤ 1.1σₕ,C1 + 1.1σₕ,C0` | Contrail 0 and Contrail 1 intersect at a nonzero angle, with overlapping regions depending on distance and σ parameters.       | Angled Intersection |
 
+Note: In reality, a time gap of 0 seconds would imply two aircraft colliding, which is not physically possible. Instead, we set a time gap of 900 seconds to represent a delayed generation of the second contrail, allowing meaningful overlap/intersection scenarios without implying collision. So that:
+- The Simulation can be allow to have sufficient time for C0 to form and diffuse.
+- A too short time gap (for example, 0) could potentially trigger TCAS.
+
+However, the gap time can be still modify in the main logic of the calculation. `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.`
 
 ## Calculation Steps
 The main logic of the calculation is to simulate the evolution of aircraft contrails (condensation trails) and their interaction with atmospheric conditions. Which is located in `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.` The physical process of **Diffusion**,  **Vertical Motion:**,  **Adiabatic Heating**, and the changes in **Ice Particles** are formed in following steps.
