@@ -1,8 +1,8 @@
 # Intersected Contrails
 
-This is a project of a study of the impact of intersected contrails on their lifetime. This project aims to simulate the impact of intersected contrails with two individual Gaussian reductions in the atmosphere simultaneously. In the following section, a brief description of the simulation of two contrails is given. 
+This open-source project provides a simulation framework for modeling the lifetime and evolution of aircraft condensation trails (contrails) using a Gaussian plume (exhaust dispersion) approach. In the following section, a brief description of the installation, simulation, and assumptions is given. The usage of the program is described in [this section](#usage).
 
-The code is part of the publication (TBA), which provides more detailed descriptions, explanations, and the formulation of the model.
+The code is part of the publication (TBA, submitted), which provides more detailed descriptions, explanations, and the formulation of the model.
 
 
 ## Dependencies
@@ -21,7 +21,7 @@ Afterwards, go to your project folder, open `Config_vortex0.txt`, and change the
 
 > An example GRIB weather file is provided in the project folder: grib_01_2016-02-07_1200.grib2. Change the final line to your own directory. However, it is also possible to simulate a different environment, as long as you have a different .grib2 file.
 >
-Please also change for `Config_vortex1_for_s0&1&3.txt` and `Config_vortex1_for_s2.txt` with the same steps.
+Please also change `Config_vortex1_for_s0&1&3.txt` and `Config_vortex1_for_s2.txt` with the same steps.
 
 When ready, navigate to `**your project folder**\src\ContrailsWakeVortex2020` run `central_control_of_scenarios.java` for scenario creations. 
 
@@ -34,7 +34,7 @@ When ready, navigate to `**your project folder**\src\ContrailsWakeVortex2020` ru
 - `altitude` Aircraft flight altitude, and converted into meters
 - `M` Aircraft mass in kilograms
 - `fuelflow` Fuel flow in kilograms per second
-- `distance` Calculated based on Latitude and Longgitude
+- `distance` Calculated based on Latitude and Longitude
 
 
 ### Meteorology inputs:
@@ -72,13 +72,13 @@ This model considers four scenarios describing the relative spatial configuratio
 | **S3**   | *a ∈ (0, 90]* (angled) <br> `d₀,₁ ≤ 1.1σₕ,C1 + 1.1σₕ,C0` | Contrail 0 and Contrail 1 intersect at a nonzero angle, with overlapping regions depending on distance and σ parameters.       | Angled Intersection |
 
 Note: In reality, a time gap of 0 seconds would imply two aircraft colliding, which is not physically possible. Instead, we set a time gap of 900 seconds to represent a delayed generation of the second contrail, allowing meaningful overlap/intersection scenarios without implying collision. So that:
-- The Simulation can be allow to have sufficient time for C0 to form and diffuse.
-- A too short time gap (for example, 0) could potentially trigger TCAS.
+- The Simulation can be allowed to have sufficient time for C0 to form and diffuse.
+- A too-short time gap (for example, 0) could potentially trigger TCAS.
 
-However, the gap time can be still modify in the main logic of the calculation. `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.`
+However, the gap time can still be modified in the main logic of the calculation. `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.`
 
 ## Calculation Steps
-The main logic of the calculation is to simulate the evolution of aircraft contrails (condensation trails) and their interaction with atmospheric conditions. Which is located in `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.` The physical process of **Diffusion**,  **Vertical Motion:**,  **Adiabatic Heating**, and the changes in **Ice Particles** are formed in following steps.
+The main logic of the calculation is to simulate the evolution of aircraft contrails and their interaction with atmospheric conditions. Which is located in `src\ContrailsWakeVortex2020\wake_vortex_individual_s0.java, etc.` The physical process of **Diffusion**,  **Vertical Motion:**,  **Adiabatic Heating**, and the changes in **Ice Particles** are formed in the following steps.
 
 ### 1. Parameter Initialization
 
